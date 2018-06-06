@@ -85,7 +85,7 @@ public class SignatureActivity extends AppCompatActivity {
                 saveFunction();
                 return true;
             case Menu.FIRST + 2:
-                Intent i = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivity(i);
                 return true;
         }
