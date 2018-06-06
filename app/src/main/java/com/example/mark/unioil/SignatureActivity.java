@@ -1,6 +1,7 @@
 package com.example.mark.unioil;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -8,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,8 +54,6 @@ public class SignatureActivity extends AppCompatActivity {
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(3);
 
-        dv.clearDrawing();
-
     }
 
     @Override
@@ -62,6 +62,7 @@ public class SignatureActivity extends AppCompatActivity {
 
         menu.add(0, Menu.FIRST, 0, "Clear").setShortcut('1', 'c');
         menu.add(0, Menu.FIRST + 1, 0, "Save").setShortcut('2', 's');
+        menu.add(0, Menu.FIRST + 2, 0, "Picture").setShortcut('3', 'p');
         return true;
     }
 
@@ -82,6 +83,10 @@ public class SignatureActivity extends AppCompatActivity {
                 return true;
             case Menu.FIRST + 1:
                 saveFunction();
+                return true;
+            case Menu.FIRST + 2:
+                Intent i = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                startActivity(i);
                 return true;
         }
         return super.onOptionsItemSelected(menuItem);
