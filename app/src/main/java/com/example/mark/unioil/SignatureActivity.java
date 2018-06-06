@@ -7,9 +7,19 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class SignatureActivity extends AppCompatActivity {
 
@@ -22,7 +32,6 @@ public class SignatureActivity extends AppCompatActivity {
     private Bitmap mBitmap;
     private Canvas mCanvas;
     private Paint mPaint;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +51,63 @@ public class SignatureActivity extends AppCompatActivity {
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(3);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+
+        menu.add(0, Menu.FIRST, 0, "Clear").setShortcut('1', 'c');
+        menu.add(0, Menu.FIRST + 1, 0, "Save").setShortcut('2', 's');
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        mPaint.setXfermode(null);
+        mPaint.setAlpha(0xFF);
+
+        switch (menuItem.getItemId()) {
+            case Menu.FIRST:
+                dv.clearDrawing();
+                return true;
+            case Menu.FIRST + 1:
+                saveFunction();
+                return true;
+        }
+        return super.onOptionsItemSelected(menuItem);
+    }
+
+    void saveFunction() {
+        Bitmap bitmap = dv.getDrawingCache();
+        File exportDir = new File(Environment.getExternalStorageDirectory() + "/Datascan", "");
+        if (!exportDir.exists()) {
+            exportDir.mkdirs();
+        }
+        DateFormat dateFormat = new SimpleDateFormat("MM_dd_yy HH_mm_ss", Locale.ENGLISH);
+        Date date = new Date();
+
+        File file = new File(exportDir, "datascan_" + dateFormat.format(date) + ".jpg");
+//        fileToSend = "datascan_" + dateFormat.format(date);
+        try {
+            file.createNewFile();
+            FileOutputStream ostream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 10, ostream);
+            ostream.flush();
+            ostream.close();
+            dv.invalidate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            dv.setDrawingCacheEnabled(false);
+//            exportBaKamo(value);
+        }
     }
 
     private class DrawingView extends View {
