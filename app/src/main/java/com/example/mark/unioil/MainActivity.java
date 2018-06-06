@@ -22,11 +22,16 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.Console;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 import static com.example.mark.unioil.SQLiteHelper.DR_CUSTOMERNAME;
 import static com.example.mark.unioil.SQLiteHelper.DR_NUMBER;
@@ -127,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
         btnProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SignatureActivity.class);
                 try{
                     FileReader file = new FileReader(Environment.getExternalStorageDirectory()+ "/Download/unioil_data.txt");
                     BufferedReader bfr = new BufferedReader(file);
@@ -136,6 +142,8 @@ public class MainActivity extends AppCompatActivity {
                         nCount++;
                         if(line.equals(etDrNumber.getText().toString())){
                             Snackbar.make(coordinatorLayout,"FOUND!",Snackbar.LENGTH_SHORT).show();
+                            writeOutput();
+                            startActivity(intent);
                             break;
                         }
                         else if(!line.equals(etDrNumber.getText().toString())){
@@ -150,6 +158,26 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void writeOutput() {
+        try {
+            File sdCardDir = Environment.getExternalStorageDirectory();
+            String filename = "output.txt"; // the name of the file to export with
+//            File saveFile = new File(sdCardDir, filename);
+            FileOutputStream fw = openFileOutput(Environment.getExternalStorageDirectory()+"/"+filename,MODE_APPEND);
+            OutputStreamWriter osw = new OutputStreamWriter(fw);
+            osw.write(etDrNumber.getText().toString() +","+ etUserName.getText().toString() +","+ etCustomerName.getText().toString());
+            osw.flush();
+            osw.close();
+//            BufferedWriter bw = new BufferedWriter(fw);
+//            bw.append(etDrNumber.getText().toString() +","+ etUserName.getText().toString() +","+ etCustomerName.getText().toString());
+//            bw.close();
+
+        } catch (Exception e){
+            Log.d("Error in writeOutput: ",e.toString());
+        }
+
     }
 
     private void init() {
