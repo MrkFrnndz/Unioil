@@ -4,12 +4,11 @@ import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Debug;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
@@ -19,39 +18,26 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.Console;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 
-import static com.example.mark.unioil.SQLiteHelper.DR_CUSTOMERNAME;
 import static com.example.mark.unioil.SQLiteHelper.DR_NUMBER;
-import static com.example.mark.unioil.SQLiteHelper.DR_USERNAME;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final int requestcode = 1;
     private AppCompatEditText etDrNumber;
     private AppCompatEditText etUserName;
     private AppCompatEditText etCustomerName;
     private AppCompatButton   btnProceed;
     private CoordinatorLayout coordinatorLayout;
-
     private SQLiteHelper sqlite;
     private SQLiteDatabase dbReader;
     private SQLiteDatabase dbWriter;
-
-    public static final int requestcode = 1;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,15 +150,12 @@ public class MainActivity extends AppCompatActivity {
         try {
             File sdCardDir = Environment.getExternalStorageDirectory();
             String filename = "output.txt"; // the name of the file to export with
-//            File saveFile = new File(sdCardDir, filename);
-            FileOutputStream fw = openFileOutput(Environment.getExternalStorageDirectory()+"/"+filename,MODE_APPEND);
-            OutputStreamWriter osw = new OutputStreamWriter(fw);
-            osw.write(etDrNumber.getText().toString() +","+ etUserName.getText().toString() +","+ etCustomerName.getText().toString());
-            osw.flush();
-            osw.close();
-//            BufferedWriter bw = new BufferedWriter(fw);
-//            bw.append(etDrNumber.getText().toString() +","+ etUserName.getText().toString() +","+ etCustomerName.getText().toString());
-//            bw.close();
+            File saveFile = new File(sdCardDir, filename);
+            FileWriter fw = new FileWriter(saveFile, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.append(etDrNumber.getText().toString()).append(",").append(etUserName.getText().toString()).append(",").append(etCustomerName.getText().toString()).append("\n");
+
+            bw.close();
 
         } catch (Exception e){
             Log.d("Error in writeOutput: ",e.toString());
