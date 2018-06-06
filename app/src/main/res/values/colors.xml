@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <!--STATUSBAR-->
+    <color name="colorPrimary">#fa8100</color>
+    <!--TOOLBAR-->
+    <color name="colorPrimaryDark">#dc7201</color>
+    <!--FAB-->
+    <color name="colorAccent">#880061</color>
+    <!--MAIN TEXT-->
+    <color name="colorMainText">#ffffff</color>
+    <!--SECONDARY TEXT-->
+    <color name="colorSecondaryText">#5c5c5c</color>
+    <!--EDITTEXT true-->
+        <color name="colorEditTextT">#d6d6d6</color>
+    <!--EDITTEXT false-->
+    <color name="colorEditTextF">#b7b7b7</color>
+    <!--BUTTON DISABLE false-->
+    <color name="colorButtonDisable">#a9a9a9</color>
+    <!--BUTTON PRESSED false-->
+    <color name="colorButtonPressed">#880061</color>
 </resources>
