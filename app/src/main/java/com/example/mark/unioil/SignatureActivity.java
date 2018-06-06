@@ -51,6 +51,9 @@ public class SignatureActivity extends AppCompatActivity {
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(3);
+
+        dv.clearDrawing();
+
     }
 
     @Override
