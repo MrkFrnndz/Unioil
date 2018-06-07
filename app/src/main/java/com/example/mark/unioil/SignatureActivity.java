@@ -1,8 +1,10 @@
 package com.example.mark.unioil;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Camera;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,11 +12,13 @@ import android.graphics.Path;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,6 +38,8 @@ public class SignatureActivity extends AppCompatActivity {
     private Bitmap mBitmap;
     private Canvas mCanvas;
     private Paint mPaint;
+    private boolean thereIsDrawing;
+    private boolean drawingSaved;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +59,6 @@ public class SignatureActivity extends AppCompatActivity {
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(3);
-
     }
 
     @Override
@@ -62,7 +67,9 @@ public class SignatureActivity extends AppCompatActivity {
 
         menu.add(0, Menu.FIRST, 0, "Clear").setShortcut('1', 'c');
         menu.add(0, Menu.FIRST + 1, 0, "Save").setShortcut('2', 's');
-        menu.add(0, Menu.FIRST + 2, 0, "Picture").setShortcut('3', 'p');
+        menu.add(0, Menu.FIRST + 2, 0, "Take Photo").setShortcut('3', 'p');
+        menu.add(0, Menu.FIRST + 3, 0, "Upload").setShortcut('4', 'u');
+
         return true;
     }
 
@@ -85,36 +92,54 @@ public class SignatureActivity extends AppCompatActivity {
                 saveFunction();
                 return true;
             case Menu.FIRST + 2:
-                Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivity(i);
+                if(thereIsDrawing && drawingSaved){
+                    dv.clearDrawing();
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText( this, "Incomplete Signature", Toast.LENGTH_SHORT).show();
+                }
                 return true;
+            case Menu.FIRST + 3:
+                    Intent intent = new Intent(this, SubmitActivity.class);
+                    startActivity(intent);
+                return true;
+
+
         }
         return super.onOptionsItemSelected(menuItem);
     }
 
     void saveFunction() {
-        Bitmap bitmap = dv.getDrawingCache();
-        File exportDir = new File(Environment.getExternalStorageDirectory() + "/Datascan", "");
-        if (!exportDir.exists()) {
-            exportDir.mkdirs();
-        }
-        DateFormat dateFormat = new SimpleDateFormat("MM_dd_yy HH_mm_ss", Locale.ENGLISH);
-        Date date = new Date();
+        if (thereIsDrawing) {
+            Bitmap bitmap = dv.getDrawingCache();
+            File exportDir = new File(Environment.getExternalStorageDirectory() + "/Datascan", "");
+            if (!exportDir.exists()) {
+                exportDir.mkdirs();
+            }
+            DateFormat dateFormat = new SimpleDateFormat("MM_dd_yy HH_mm_ss", Locale.ENGLISH);
+            Date date = new Date();
 
-        File file = new File(exportDir, "datascan_" + dateFormat.format(date) + ".jpg");
+            File file = new File(exportDir, "datascan_" + dateFormat.format(date) + ".jpg");
 //        fileToSend = "datascan_" + dateFormat.format(date);
-        try {
-            file.createNewFile();
-            FileOutputStream ostream = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 10, ostream);
-            ostream.flush();
-            ostream.close();
-            dv.invalidate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            dv.setDrawingCacheEnabled(false);
+            try {
+                file.createNewFile();
+                FileOutputStream ostream = new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 10, ostream);
+                ostream.flush();
+                ostream.close();
+                dv.invalidate();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                dv.setDrawingCacheEnabled(false);
+                drawingSaved = true;
+                Toast.makeText(this, "SAVED!", Toast.LENGTH_SHORT).show();
 //            exportBaKamo(value);
+            }
+        }
+        else{
+            Toast.makeText(this,"Empty Canvas!",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -138,6 +163,7 @@ public class SignatureActivity extends AppCompatActivity {
         }
 
         public void clearDrawing() {
+            thereIsDrawing = false;
             setDrawingCacheEnabled(false);
 
             onSizeChanged(getWidth(), getHeight(), getWidth(), getHeight());
@@ -185,6 +211,7 @@ public class SignatureActivity extends AppCompatActivity {
         }
 
         private void touch_up() {
+            thereIsDrawing = true;
             mPath.lineTo(mX, mY);
             circlePath.reset();
             mCanvas.drawPath(mPath, mPaint);
@@ -213,4 +240,5 @@ public class SignatureActivity extends AppCompatActivity {
             return true;
         }
     }
+
 }
