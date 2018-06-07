@@ -50,6 +50,7 @@ public class SignatureActivity extends AppCompatActivity {
         dv.setDrawingCacheEnabled(true);
 
         setContentView(dv);
+        getSupportActionBar().setTitle("Complete Process");
 
         mPaint = new Paint();
         mPaint.setAntiAlias(true);

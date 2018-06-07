@@ -1,9 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.mark.unioil.SubmitActivity">
+    tools:context="com.example.mark.unioil.MainActivity"
+    android:id="@+id/coordinatorlayout">
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.google.android.flexbox.FlexboxLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:alignItems="flex_start"
+            app:flexWrap="wrap"
+            app:justifyContent="center">
+
+            <com.google.android.flexbox.FlexboxLayout
+                app:alignContent="center"
+                app:layout_flexBasisPercent="@fraction/fraction80percent"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/flexForEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:alignItems="center"
+                app:flexWrap="wrap"
+                app:justifyContent="space_around">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <android.support.v7.widget.AppCompatButton
+                    android:layout_weight=".5"
+                    android:text="SIGNATURE"
+                    android:id="@+id/btnSignature"
+                    app:layout_flexBasisPercent="@fraction/fraction100percent"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_button_light_violet"/>
+
+                <android.support.v7.widget.AppCompatButton
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight=".5"
+                    android:text="Picture"
+                    android:id="@+id/btnPicture"
+                    app:layout_flexBasisPercent="@fraction/fraction100percent"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_button_light_violet"/>
+
+            </LinearLayout>
+
+                <android.support.v7.widget.AppCompatButton
+                    android:layout_marginTop="15dp"
+                    android:text="UPLOAD"
+                    android:id="@+id/btnUpload"
+                    app:layout_flexBasisPercent="@fraction/fraction100percent"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_button_violet"/>
+
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/flexForEditText"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/flexForButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:alignItems="center"
+                app:flexWrap="wrap"
+                app:justifyContent="center">
+
+
+            </com.google.android.flexbox.FlexboxLayout>
+
+        </com.google.android.flexbox.FlexboxLayout>
+    </RelativeLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>
