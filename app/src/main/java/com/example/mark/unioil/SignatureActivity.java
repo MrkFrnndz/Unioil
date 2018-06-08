@@ -1,10 +1,8 @@
 package com.example.mark.unioil;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Camera;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,7 +10,6 @@ import android.graphics.Path;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,6 +37,7 @@ public class SignatureActivity extends AppCompatActivity {
     private Paint mPaint;
     private boolean thereIsDrawing;
     private boolean drawingSaved;
+    private String DRNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +58,8 @@ public class SignatureActivity extends AppCompatActivity {
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(3);
+
+        DRNumber = getIntent().getStringExtra("DR");
     }
 
     @Override
@@ -103,6 +103,7 @@ public class SignatureActivity extends AppCompatActivity {
                 return true;
             case Menu.FIRST + 3:
                     Intent intent = new Intent(this, SubmitActivity.class);
+                intent.putExtra("DR", DRNumber);
                     startActivity(intent);
                 return true;
 

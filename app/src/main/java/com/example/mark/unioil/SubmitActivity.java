@@ -1,6 +1,5 @@
 package com.example.mark.unioil;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,8 +21,9 @@ public class SubmitActivity extends AppCompatActivity {
     final String pass = "darksalad12";
     final int PORT = 21;
     final int PICK_FILE = 1;
-    AppCompatButton btnUpload, btnSignature, btnPicture;
-    String filename, filepath;
+    AppCompatButton btnUpload;
+    String filename;
+    private String DRNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,48 +33,43 @@ public class SubmitActivity extends AppCompatActivity {
 
         initialize();
 
+        DRNumber = getIntent().getStringExtra("DR");
+
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-                i.setType("file/*");
-                startActivityForResult(i, PICK_FILE);
-            }
-        });
+//                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+//                i.setType("file/*");
+//                startActivityForResult(i, PICK_FILE);
 
-        btnSignature.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-                i.setType("file/*");
-                startActivityForResult(i, PICK_FILE);
-            }
-        });
+                //File Sample
+                //    /storage/sdcard0/Datascan/datascan_03_09_18 10_08_47.csv
+                //    datascan_03_09_18 10_08_47.csv
 
-        btnPicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-                i.setType("file/*");
-                startActivityForResult(i, PICK_FILE);
+                filename = DRNumber + "-Data.csv";
+                new UploadFile().execute("/storage/sdcard0/Unioil/" + filename, FTPHost, user, pass);
+                filename = DRNumber + "-Signature.jpg";
+                new UploadFile().execute("/storage/sdcard0/Unioil/" + filename, FTPHost, user, pass);
+                filename = DRNumber + "-Document.jpg";
+                new UploadFile().execute("/storage/sdcard0/Unioil/" + filename, FTPHost, user, pass);
             }
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PICK_FILE && data.getData() != null) {
-            filepath = data.getData().getPath();
-            filename = data.getData().getLastPathSegment();
-            new UploadFile().execute(filepath, FTPHost, user, pass);
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == PICK_FILE && data.getData() != null) {
+//            filepath = data.getData().getPath();
+//            filename = data.getData().getLastPathSegment();
+//            Log.d("File", filepath +"\n"+ filename);
+//            new UploadFile().execute(filepath, FTPHost, user, pass);
+//        }
+//        super.onActivityResult(requestCode, resultCode, data);
+//    }
+
 
     private void initialize() {
         btnUpload = (AppCompatButton) findViewById(R.id.btnUpload);
-        btnSignature = (AppCompatButton) findViewById(R.id.btnSignature);
-        btnPicture = (AppCompatButton) findViewById(R.id.btnPicture);
     }
 
     private class UploadFile extends AsyncTask<String, Integer, Boolean> {

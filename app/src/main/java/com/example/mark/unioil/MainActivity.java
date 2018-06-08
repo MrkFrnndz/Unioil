@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Delivery Receipt");
         init();
 
-
         etDrNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -130,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
                         if(line.equals(etDrNumber.getText().toString())){
                             Snackbar.make(coordinatorLayout,"FOUND!",Snackbar.LENGTH_SHORT).show();
                             writeOutput();
+                            intent.putExtra("DR", etDrNumber.getText().toString());
                             startActivity(intent);
                             break;
                         }
