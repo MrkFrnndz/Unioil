@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.apache.commons.net.ftp.FTP;
@@ -34,6 +35,8 @@ public class SubmitActivity extends AppCompatActivity {
     private String customer;
 
     private int fileSend;
+
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +84,7 @@ public class SubmitActivity extends AppCompatActivity {
 
     private void initialize() {
         btnUpload = (AppCompatButton) findViewById(R.id.btnUpload);
+        progressBar = (ProgressBar) findViewById(R.id.determinateBar);
     }
 
     private void writeOutput() {
@@ -129,6 +133,7 @@ public class SubmitActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean success) {
             if (success) {
+                progressBar.incrementProgressBy(33);
                 if (fileSend == 1) {
                     filename = drnumber + "-Signature.jpg";
                     new UploadFile().execute("/storage/sdcard0/Unioil/" + filename, FTPHost, user, pass);
