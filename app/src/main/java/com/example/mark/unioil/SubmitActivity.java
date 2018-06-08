@@ -89,13 +89,14 @@ public class SubmitActivity extends AppCompatActivity {
 
     private void writeOutput() {
         try {
-            File sdCardDir = Environment.getExternalStorageDirectory();
+            File sdCardDir = new File(Environment.getExternalStorageDirectory() + "/Unioil", "");
             String filename = drnumber + "-Data.txt"; // the name of the file to export with
             File saveFile = new File(sdCardDir, filename);
             FileWriter fw = new FileWriter(saveFile, true);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.append(drnumber).append(",").append(username).append(",").append(customer).append("\n");
             bw.close();
+            Log.d("Error in writeOutput: ", sdCardDir.toString());
 
         } catch (Exception e) {
             Log.d("Error in writeOutput: ", e.toString());
@@ -113,6 +114,7 @@ public class SubmitActivity extends AppCompatActivity {
                 client.enterLocalPassiveMode();
                 client.changeWorkingDirectory("/public_html/CSVFiles");
                 client.setFileType(FTP.BINARY_FILE_TYPE);
+                Log.d("FTP", filename);
                 return client.storeFile(filename, new FileInputStream(new File(params[0])));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -126,6 +128,14 @@ public class SubmitActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean sucess) {
+            if (sucess)
+                Toast.makeText(SubmitActivity.this, "File Sent", Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(SubmitActivity.this, "Error", Toast.LENGTH_LONG).show();
         }
     }
 }
