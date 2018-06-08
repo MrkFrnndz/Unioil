@@ -129,7 +129,9 @@ public class MainActivity extends AppCompatActivity {
                         if(line.equals(etDrNumber.getText().toString())){
                             Snackbar.make(coordinatorLayout,"FOUND!",Snackbar.LENGTH_SHORT).show();
                             writeOutput();
-                            intent.putExtra("DR", etDrNumber.getText().toString());
+                            intent.putExtra("DRNUMBER",etDrNumber.getText().toString());
+                            intent.putExtra("USERNAME",etUserName.getText().toString());
+                            intent.putExtra("CUSTOMER",etCustomerName.getText().toString());
                             startActivity(intent);
                             break;
                         }
