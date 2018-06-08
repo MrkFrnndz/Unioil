@@ -33,6 +33,8 @@ public class SubmitActivity extends AppCompatActivity {
     private String username;
     private String customer;
 
+    private int fileSend;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,13 +62,7 @@ public class SubmitActivity extends AppCompatActivity {
 
                 filename = drnumber + "-Data.txt";
                 new UploadFile().execute("/storage/sdcard0/Unioil/" + filename, FTPHost, user, pass);
-                filename = drnumber + "-Signature.jpg";
-                new UploadFile().execute("/storage/sdcard0/Unioil/" + filename, FTPHost, user, pass);
-                filename = drnumber + "-Document.jpg";
-                new UploadFile().execute("/storage/sdcard0/Unioil/" + filename, FTPHost, user, pass);
-
-                Toast.makeText(SubmitActivity.this, "Upload successful.", Toast.LENGTH_LONG).show();
-                startActivity(new Intent(SubmitActivity.this, MainActivity.class));
+                fileSend = 1;
             }
         });
     }
@@ -131,10 +127,21 @@ public class SubmitActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(Boolean sucess) {
-            if (sucess)
-                Toast.makeText(SubmitActivity.this, "File Sent", Toast.LENGTH_LONG).show();
-            else
+        protected void onPostExecute(Boolean success) {
+            if (success) {
+                if (fileSend == 1) {
+                    filename = drnumber + "-Signature.jpg";
+                    new UploadFile().execute("/storage/sdcard0/Unioil/" + filename, FTPHost, user, pass);
+                    fileSend = 2;
+                } else if (fileSend == 2) {
+                    filename = drnumber + "-Document.jpg";
+                    new UploadFile().execute("/storage/sdcard0/Unioil/" + filename, FTPHost, user, pass);
+                    fileSend = 3;
+                } else if (fileSend == 3) {
+                    Toast.makeText(SubmitActivity.this, "Upload successful.", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(SubmitActivity.this, MainActivity.class));
+                }
+            } else
                 Toast.makeText(SubmitActivity.this, "Error", Toast.LENGTH_LONG).show();
         }
     }
