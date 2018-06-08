@@ -40,17 +40,26 @@ public class SignatureActivity extends AppCompatActivity {
     private Paint mPaint;
     private boolean thereIsDrawing;
     private boolean drawingSaved;
+    private Intent intent;
+    private String drnumber;
+    private String username;
+    private String customer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        intent = getIntent();
+        drnumber = intent.getExtras().getString("DRNUMBER");
+        username = intent.getExtras().getString("USERNAME");
+        customer = intent.getExtras().getString("CUSTOMER");
 
         dv = new DrawingView(this);
         dv.setBackgroundColor(Color.WHITE);
         dv.setDrawingCacheEnabled(true);
 
         setContentView(dv);
-        getSupportActionBar().setTitle("Complete Process");
+        getSupportActionBar().setTitle("Signature");
 
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
@@ -91,18 +100,22 @@ public class SignatureActivity extends AppCompatActivity {
                 return true;
             case Menu.FIRST + 1:
                 saveFunction();
-                return true;
-            case Menu.FIRST + 2:
                 if(thereIsDrawing && drawingSaved){
                     dv.clearDrawing();
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent = new Intent(this, CameraActivity.class);
+                    intent.putExtra("DRNUMBER",drnumber);
+                    intent.putExtra("USERNAME",username);
+                    intent.putExtra("CUSTOMER",customer);
                     startActivity(intent);
                 } else {
                     Toast.makeText( this, "Incomplete Signature", Toast.LENGTH_SHORT).show();
                 }
                 return true;
+            case Menu.FIRST + 2:
+
+                return true;
             case Menu.FIRST + 3:
-                    Intent intent = new Intent(this, SubmitActivity.class);
+                    intent = new Intent(this, SubmitActivity.class);
                     startActivity(intent);
                 return true;
 
