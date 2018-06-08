@@ -1,9 +1,7 @@
 package com.example.mark.unioil;
 
 import android.content.ActivityNotFoundException;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.CoordinatorLayout;
@@ -20,12 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
-
-import static com.example.mark.unioil.SQLiteHelper.DR_NUMBER;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,9 +28,6 @@ public class MainActivity extends AppCompatActivity {
     private AppCompatEditText etCustomerName;
     private AppCompatButton   btnProceed;
     private CoordinatorLayout coordinatorLayout;
-    private SQLiteHelper sqlite;
-    private SQLiteDatabase dbReader;
-    private SQLiteDatabase dbWriter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,12 +113,12 @@ public class MainActivity extends AppCompatActivity {
                     FileReader file = new FileReader(Environment.getExternalStorageDirectory()+ "/Download/unioil_data.txt");
                     BufferedReader bfr = new BufferedReader(file);
                     String line;
-                    int nCount = 0;
+//                    int nCount = 0;
                     while ((line = bfr.readLine()) != null) {
-                        nCount++;
+//                        nCount++;
                         if(line.equals(etDrNumber.getText().toString())){
                             Snackbar.make(coordinatorLayout,"FOUND!",Snackbar.LENGTH_SHORT).show();
-                            writeOutput();
+//                            writeOutput();
                             intent.putExtra("DRNUMBER",etDrNumber.getText().toString());
                             intent.putExtra("USERNAME",etUserName.getText().toString());
                             intent.putExtra("CUSTOMER",etCustomerName.getText().toString());
@@ -149,22 +139,22 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void writeOutput() {
-        try {
-            File sdCardDir = Environment.getExternalStorageDirectory();
-            String filename = "output.txt"; // the name of the file to export with
-            File saveFile = new File(sdCardDir, filename);
-            FileWriter fw = new FileWriter(saveFile, true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.append(etDrNumber.getText().toString()).append(",").append(etUserName.getText().toString()).append(",").append(etCustomerName.getText().toString()).append("\n");
-
-            bw.close();
-
-        } catch (Exception e){
-            Log.d("Error in writeOutput: ",e.toString());
-        }
-
-    }
+//    private void writeOutput() {
+//        try {
+//            File sdCardDir = Environment.getExternalStorageDirectory();
+//            String filename = "output.txt"; // the name of the file to export with
+//            File saveFile = new File(sdCardDir, filename);
+//            FileWriter fw = new FileWriter(saveFile, true);
+//            BufferedWriter bw = new BufferedWriter(fw);
+//            bw.append(etDrNumber.getText().toString()).append(",").append(etUserName.getText().toString()).append(",").append(etCustomerName.getText().toString()).append("\n");
+//
+//            bw.close();
+//
+//        } catch (Exception e){
+//            Log.d("Error in writeOutput: ",e.toString());
+//        }
+//
+//    }
 
     private void init() {
         etDrNumber = (AppCompatEditText) findViewById(R.id.etDrNumber);
@@ -172,9 +162,6 @@ public class MainActivity extends AppCompatActivity {
         etCustomerName = (AppCompatEditText) findViewById(R.id.etCustomerName);
         btnProceed = (AppCompatButton) findViewById(R.id.btnProceed);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorlayout);
-        sqlite = new SQLiteHelper(this);
-        dbReader = sqlite.getReadableDatabase();
-        dbWriter = sqlite.getWritableDatabase();
 
     }
 
@@ -208,41 +195,4 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data == null)
-            return;
-        switch (requestCode)
-        {
-            case requestcode:
-                String filepath = data.getData().getPath();
-                SQLiteDatabase db = sqlite.getWritableDatabase();
-                String tableName = SQLiteHelper.TABLE_DR;
-                db.execSQL("delete from " + tableName);
-                try {
-                    if (resultCode == RESULT_OK) {
-                        try {
-                            FileReader file = new FileReader(filepath);
-                            BufferedReader buffer = new BufferedReader(file);
-                            ContentValues contentValues = new ContentValues();
-                            db.beginTransaction();
-                            String line;
-                            while ((line = buffer.readLine()) != null) {
-                                String[] str = line.split(",", 1);  // defining 3 columns with null or blank field //values acceptance
-                                String accNum = str[0];
-                                /*String userName = str[1];
-                                String customerName = str[2];*/
-                                contentValues.put(DR_NUMBER, accNum);
-//                                contentValues.put(DR_USERNAME, userName);
-//                                contentValues.put(DR_CUSTOMERNAME, customerName);
-                                db.insert(tableName, null, contentValues);
-                            }
-                        } catch (Exception e) {
-                        }
-                    }
-                } catch (Exception e) {
-                }
-            }
-        }
-    }
+}

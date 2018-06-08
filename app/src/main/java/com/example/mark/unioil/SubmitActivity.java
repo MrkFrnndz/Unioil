@@ -1,17 +1,22 @@
 package com.example.mark.unioil;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class SubmitActivity extends AppCompatActivity {
@@ -20,10 +25,13 @@ public class SubmitActivity extends AppCompatActivity {
     final String user = "attendancemonitor";
     final String pass = "darksalad12";
     final int PORT = 21;
-    final int PICK_FILE = 1;
+    //    final int PICK_FILE = 1;
     AppCompatButton btnUpload;
     String filename;
-    private String DRNumber;
+
+    private String drnumber;
+    private String username;
+    private String customer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +41,11 @@ public class SubmitActivity extends AppCompatActivity {
 
         initialize();
 
-        DRNumber = getIntent().getStringExtra("DR");
+        drnumber = getIntent().getExtras().getString("DRNUMBER");
+        username = getIntent().getExtras().getString("USERNAME");
+        customer = getIntent().getExtras().getString("CUSTOMER");
+
+        writeOutput();
 
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,12 +58,15 @@ public class SubmitActivity extends AppCompatActivity {
                 //    /storage/sdcard0/Datascan/datascan_03_09_18 10_08_47.csv
                 //    datascan_03_09_18 10_08_47.csv
 
-                filename = DRNumber + "-Data.csv";
+                filename = drnumber + "-Data.txt";
                 new UploadFile().execute("/storage/sdcard0/Unioil/" + filename, FTPHost, user, pass);
-                filename = DRNumber + "-Signature.jpg";
+                filename = drnumber + "-Signature.jpg";
                 new UploadFile().execute("/storage/sdcard0/Unioil/" + filename, FTPHost, user, pass);
-                filename = DRNumber + "-Document.jpg";
+                filename = drnumber + "-Document.jpg";
                 new UploadFile().execute("/storage/sdcard0/Unioil/" + filename, FTPHost, user, pass);
+
+                Toast.makeText(SubmitActivity.this, "Upload successful.", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(SubmitActivity.this, MainActivity.class));
             }
         });
     }
@@ -70,6 +85,22 @@ public class SubmitActivity extends AppCompatActivity {
 
     private void initialize() {
         btnUpload = (AppCompatButton) findViewById(R.id.btnUpload);
+    }
+
+    private void writeOutput() {
+        try {
+            File sdCardDir = Environment.getExternalStorageDirectory();
+            String filename = drnumber + "-Data.txt"; // the name of the file to export with
+            File saveFile = new File(sdCardDir, filename);
+            FileWriter fw = new FileWriter(saveFile, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.append(drnumber).append(",").append(username).append(",").append(customer).append("\n");
+            bw.close();
+
+        } catch (Exception e) {
+            Log.d("Error in writeOutput: ", e.toString());
+        }
+
     }
 
     private class UploadFile extends AsyncTask<String, Integer, Boolean> {

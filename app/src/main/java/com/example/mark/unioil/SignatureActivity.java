@@ -9,7 +9,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,10 +18,6 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 public class SignatureActivity extends AppCompatActivity {
 
@@ -74,8 +69,6 @@ public class SignatureActivity extends AppCompatActivity {
 
         menu.add(0, Menu.FIRST, 0, "Clear").setShortcut('1', 'c');
         menu.add(0, Menu.FIRST + 1, 0, "Save").setShortcut('2', 's');
-        menu.add(0, Menu.FIRST + 2, 0, "Take Photo").setShortcut('3', 'p');
-        menu.add(0, Menu.FIRST + 3, 0, "Upload").setShortcut('4', 'u');
 
         return true;
     }
@@ -108,15 +101,6 @@ public class SignatureActivity extends AppCompatActivity {
                     Toast.makeText( this, "Incomplete Signature", Toast.LENGTH_SHORT).show();
                 }
                 return true;
-            case Menu.FIRST + 2:
-
-                return true;
-            case Menu.FIRST + 3:
-                    intent = new Intent(this, SubmitActivity.class);
-                    startActivity(intent);
-                return true;
-
-
         }
         return super.onOptionsItemSelected(menuItem);
     }
@@ -124,14 +108,11 @@ public class SignatureActivity extends AppCompatActivity {
     void saveFunction() {
         if (thereIsDrawing) {
             Bitmap bitmap = dv.getDrawingCache();
-            File exportDir = new File(Environment.getExternalStorageDirectory() + "/Datascan", "");
+            File exportDir = new File(Environment.getExternalStorageDirectory() + "/Unioil", "");
             if (!exportDir.exists()) {
                 exportDir.mkdirs();
             }
-            DateFormat dateFormat = new SimpleDateFormat("MM_dd_yy HH_mm_ss", Locale.ENGLISH);
-            Date date = new Date();
-
-            File file = new File(exportDir, "datascan_" + dateFormat.format(date) + ".jpg");
+            File file = new File(exportDir, drnumber + "-Signature.jpg");
 //        fileToSend = "datascan_" + dateFormat.format(date);
             try {
                 file.createNewFile();
