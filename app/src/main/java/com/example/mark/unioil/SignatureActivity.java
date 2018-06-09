@@ -51,7 +51,6 @@ public class SignatureActivity extends AppCompatActivity {
         dv.setDrawingCacheEnabled(true);
 
         setContentView(dv);
-        getSupportActionBar().setTitle("Signature");
 
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
@@ -98,7 +97,7 @@ public class SignatureActivity extends AppCompatActivity {
                     intent.putExtra("CUSTOMER",customer);
                     startActivity(intent);
                 } else {
-                    Toast.makeText( this, "Incomplete Signature", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.incompletesignature, Toast.LENGTH_SHORT).show();
                 }
                 return true;
         }
@@ -110,28 +109,30 @@ public class SignatureActivity extends AppCompatActivity {
             Bitmap bitmap = dv.getDrawingCache();
             File exportDir = new File(Environment.getExternalStorageDirectory() + "/Unioil", "");
             if (!exportDir.exists()) {
-                exportDir.mkdirs();
+                if (exportDir.mkdirs())
+                    Toast.makeText(this, R.string.foldercreated, Toast.LENGTH_SHORT);
             }
             File file = new File(exportDir, drnumber + "-Signature.jpg");
 //        fileToSend = "datascan_" + dateFormat.format(date);
             try {
-                file.createNewFile();
-                FileOutputStream ostream = new FileOutputStream(file);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 10, ostream);
-                ostream.flush();
-                ostream.close();
+                if (file.createNewFile()) {
+                    FileOutputStream ostream = new FileOutputStream(file);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 10, ostream);
+                    ostream.flush();
+                    ostream.close();
+                }
                 dv.invalidate();
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 dv.setDrawingCacheEnabled(false);
                 drawingSaved = true;
-                Toast.makeText(this, "SAVED!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.saved, Toast.LENGTH_SHORT).show();
 //            exportBaKamo(value);
             }
         }
         else{
-            Toast.makeText(this,"Empty Canvas!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.emptycanvas, Toast.LENGTH_SHORT).show();
         }
     }
 

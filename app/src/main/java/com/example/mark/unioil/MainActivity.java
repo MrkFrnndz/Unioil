@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().setTitle("Delivery Receipt");
         init();
 
         etDrNumber.addTextChangedListener(new TextWatcher() {
@@ -47,10 +46,10 @@ public class MainActivity extends AppCompatActivity {
                         !etUserName.getText().toString().equals("") &&
                         !etCustomerName.getText().toString().equals("")){
                     btnProceed.setEnabled(true);
-                    btnProceed.setText("Proceed to Signature");
+                    btnProceed.setText(R.string.proceedtosignature);
                 } else {
                     btnProceed.setEnabled(false);
-                    btnProceed.setText("Fill all Fields!");
+                    btnProceed.setText(R.string.fillall);
                 }
             }
 
@@ -70,10 +69,10 @@ public class MainActivity extends AppCompatActivity {
                         !etUserName.getText().toString().equals("") &&
                         !etCustomerName.getText().toString().equals("")){
                     btnProceed.setEnabled(true);
-                    btnProceed.setText("Proceed to Signature");
+                    btnProceed.setText(R.string.proceedtosignature);
                 } else {
                     btnProceed.setEnabled(false);
-                    btnProceed.setText("Fill all Fields!");
+                    btnProceed.setText(R.string.fillall);
                 }
             }
 
@@ -93,10 +92,10 @@ public class MainActivity extends AppCompatActivity {
                         !etUserName.getText().toString().equals("") &&
                         !etCustomerName.getText().toString().equals("")){
                     btnProceed.setEnabled(true);
-                    btnProceed.setText("Proceed to Signature");
+                    btnProceed.setText(R.string.proceedtosignature);
                 } else {
                     btnProceed.setEnabled(false);
-                    btnProceed.setText("Fill all Fields!");
+                    btnProceed.setText(R.string.fillall);
                 }
             }
 
@@ -117,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                     while ((line = bfr.readLine()) != null) {
 //                        nCount++;
                         if(line.equals(etDrNumber.getText().toString())){
-                            Snackbar.make(coordinatorLayout,"FOUND!",Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(coordinatorLayout, R.string.found, Snackbar.LENGTH_SHORT).show();
 //                            writeOutput();
                             intent.putExtra("DRNUMBER",etDrNumber.getText().toString());
                             intent.putExtra("USERNAME",etUserName.getText().toString());
@@ -126,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         }
                         else if(!line.equals(etDrNumber.getText().toString())){
-                            Snackbar.make(coordinatorLayout,"DR number not found!",Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(coordinatorLayout, R.string.drnotfound, Snackbar.LENGTH_SHORT).show();
                         }
                     }
 
@@ -190,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             startActivityForResult(fileIntent, requestcode);
         } catch (ActivityNotFoundException e) {
-            Snackbar.make(coordinatorLayout,"Failed to import", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(coordinatorLayout, R.string.failedtoimport, Snackbar.LENGTH_SHORT).show();
 //            Toast.makeText(this, "Failed to import", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
