@@ -26,6 +26,7 @@ public class CameraActivity extends AppCompatActivity {
     private String customer;
     private String pictureFilePath;
     private CoordinatorLayout coordinatorLayout;
+    private boolean captured;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +113,7 @@ public class CameraActivity extends AppCompatActivity {
                     cameraImage.compress(Bitmap.CompressFormat.JPEG, 100, ostream);
                     ostream.flush();
                     ostream.close();
+                    captured = true;
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {

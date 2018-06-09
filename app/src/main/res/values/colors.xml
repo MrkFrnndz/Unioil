@@ -17,7 +17,9 @@
     <!--BUTTON DISABLE false-->
     <color name="colorButtonDisable">#a9a9a9</color>
     <!--BUTTON PRESSED false-->
-    <color name="colorButtonPressed">#880061</color>
+    <color name="colorButtonPressed">#4b0136</color>
 
     <color name="colorButtonGray">#b7b7b7</color>
+
+
 </resources>
