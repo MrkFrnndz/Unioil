@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatImageView;
@@ -16,7 +15,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 public class CameraActivity extends AppCompatActivity {
-    static final int REQUEST_PICTURE_CAPTURE = 1;
     static final int CAMERA_REQUEST = 0;
     private AppCompatButton btnCapture,btnSave;
     private AppCompatImageView capturedImage;
@@ -24,8 +22,6 @@ public class CameraActivity extends AppCompatActivity {
     private String drnumber;
     private String username;
     private String customer;
-    private String pictureFilePath;
-    private CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +32,6 @@ public class CameraActivity extends AppCompatActivity {
         customer = intent.getExtras().getString("CUSTOMER");
 
         setContentView(R.layout.activity_camera);
-        getSupportActionBar().setTitle("Capture");
         init();
 
         btnCapture.setOnClickListener(new View.OnClickListener() {
@@ -102,20 +97,23 @@ public class CameraActivity extends AppCompatActivity {
                 capturedImage.setImageBitmap(cameraImage);
                 File exportDir = new File(Environment.getExternalStorageDirectory() + "/Unioil", "");
                 if (!exportDir.exists()) {
-                    exportDir.mkdirs();
+                    if (exportDir.mkdirs())
+                        Toast.makeText(this, R.string.foldercreated, Toast.LENGTH_SHORT);
                 }
 
                 File file = new File(exportDir, drnumber + "-Document.jpg");
                 try {
-                    file.createNewFile();
-                    FileOutputStream ostream = new FileOutputStream(file);
-                    cameraImage.compress(Bitmap.CompressFormat.JPEG, 100, ostream);
-                    ostream.flush();
-                    ostream.close();
+                    if (file.createNewFile()) {
+                        FileOutputStream fileOutputStreameam = new FileOutputStream(file);
+                        if (cameraImage != null)
+                            cameraImage.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStreameam);
+                        fileOutputStreameam.flush();
+                        fileOutputStreameam.close();
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
-                    Toast.makeText(this, "SAVED!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.saved, Toast.LENGTH_SHORT).show();
 //            exportBaKamo(value);
                 }
             }

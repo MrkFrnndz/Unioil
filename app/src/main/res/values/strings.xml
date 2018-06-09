@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Unioil</string>
+    <string name="signature">Signature</string>
+    <string name="upload">Upload via FTP</string>
+    <string name="capture">Capture</string>
+    <string name="delivery">Delivery Receipt</string>
+    <string name="proceedtosignature">Proceed to Signature</string>
+    <string name="fillall">Fill all Fields!</string>
+    <string name="foldercreated">Folder created.</string>
+    <string name="saved">SAVED!</string>
+    <string name="emptycanvas">Empty Canvas!</string>
+    <string name="incompletesignature">Incomplete Signature</string>
+    <string name="found">FOUND!</string>
+    <string name="drnotfound">DR number not found!</string>
+    <string name="failedtoimport">Failed to import</string>
+    <string name="error">Error</string>
 </resources>

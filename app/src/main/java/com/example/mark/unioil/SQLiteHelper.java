@@ -9,12 +9,12 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 
 public class SQLiteHelper extends SQLiteOpenHelper {
+    static final String TABLE_DR = "TABLE_DR";
+    static final String DR_NUMBER = "FIELD_NUMBER";
+    static final String DR_USERNAME = "FIELD_USERNAME";
+    static final String DR_CUSTOMERNAME = "FIELD_CUSTOMERNAME";
     private static final String DATABASE_NAME = "unioil.db";
     private static final int DATABASE_VERSION = 1;
-    public static final String TABLE_DR = "TABLE_DR";
-    public static final String DR_NUMBER = "FIELD_NUMBER";
-    public static final String DR_USERNAME = "FIELD_USERNAME";
-    public static final String DR_CUSTOMERNAME = "FIELD_CUSTOMERNAME";
 
 
     public SQLiteHelper(Context context) {

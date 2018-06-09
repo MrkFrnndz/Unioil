@@ -7,25 +7,53 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-feature android:name="android.hardware.camera" />
 
-    <uses-feature android:name="android.hardware.camera"  />
-
     <application
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/delivery">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter android:label="HTTP Unioil">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="www.example.com"
+                    android:pathPrefix="/unioil"
+                    android:scheme="http" />
+            </intent-filter>
+            <intent-filter android:label="Example Unioil">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="unioil"
+                    android:scheme="example" />
+            </intent-filter>
         </activity>
-        <activity android:name=".SignatureActivity" />
-        <activity android:name=".SubmitActivity" />
-        <activity android:name=".CameraActivity"></activity>
+        <activity
+            android:name=".SignatureActivity"
+            android:label="@string/signature" />
+        <activity
+            android:name=".SubmitActivity"
+            android:label="@string/upload" />
+        <activity
+            android:name=".CameraActivity"
+            android:label="@string/capture" />
     </application>
 
 </manifest>

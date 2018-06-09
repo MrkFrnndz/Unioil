@@ -42,7 +42,6 @@ public class SubmitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit);
-        getSupportActionBar().setTitle("Upload to FTP");
 
         initialize();
 
@@ -147,7 +146,7 @@ public class SubmitActivity extends AppCompatActivity {
                     startActivity(new Intent(SubmitActivity.this, MainActivity.class));
                 }
             } else
-                Toast.makeText(SubmitActivity.this, "Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(SubmitActivity.this, R.string.error, Toast.LENGTH_LONG).show();
         }
     }
 }
