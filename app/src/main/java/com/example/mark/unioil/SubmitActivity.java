@@ -14,7 +14,6 @@ import android.widget.Toast;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -37,6 +36,7 @@ public class SubmitActivity extends AppCompatActivity {
     private int fileSend;
 
     private ProgressBar progressBar;
+    private CSVWriter csvWrite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,13 +89,13 @@ public class SubmitActivity extends AppCompatActivity {
     private void writeOutput() {
         try {
             File sdCardDir = new File(Environment.getExternalStorageDirectory() + "/Unioil", "");
-            String filename = drnumber + "-Data.txt"; // the name of the file to export with
+            String filename = drnumber + "-Data.csv"; // the name of the file to export with
             File saveFile = new File(sdCardDir, filename);
-            FileWriter fw = new FileWriter(saveFile, true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.append(drnumber).append(",").append(username).append(",").append(customer).append("\n");
-            bw.close();
-            Log.d("Error in writeOutput: ", sdCardDir.toString());
+
+            csvWrite = new CSVWriter(new FileWriter(saveFile));
+            csvWrite.writeNext(new String[]{drnumber, username, customer});
+            csvWrite.close();
+            Log.d("Success writeOutput: ", sdCardDir.toString());
 
         } catch (Exception e) {
             Log.d("Error in writeOutput: ", e.toString());

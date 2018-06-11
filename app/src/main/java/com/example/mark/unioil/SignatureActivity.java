@@ -37,6 +37,7 @@ public class SignatureActivity extends AppCompatActivity {
     private String username;
     private String customer;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
