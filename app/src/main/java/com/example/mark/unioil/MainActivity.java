@@ -1,7 +1,9 @@
 package com.example.mark.unioil;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.CoordinatorLayout;
@@ -16,6 +18,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -180,6 +184,16 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_clear:
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {
+            ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
+                    .showInputMethodPicker();
+            Toast.makeText(this, "Barcode Scanner detected. Please turn OFF Hardware keyboard.", Toast.LENGTH_LONG).show();
         }
     }
 
