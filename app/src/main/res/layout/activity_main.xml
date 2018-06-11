@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.mark.unioil.MainActivity"
-    android:id="@+id/coordinatorlayout">
+    android:id="@+id/coordinatorlayout"
+    android:background="#f1f1f1">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -37,6 +38,8 @@
                     android:text="DR Number"/>
 
                 <android.support.v7.widget.AppCompatEditText
+                    android:textStyle="bold"
+                    android:textColor="#414141"
                     android:id="@+id/etDrNumber"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
@@ -51,6 +54,8 @@
                     android:text="User Name"/>
 
                 <android.support.v7.widget.AppCompatEditText
+                    android:textStyle="bold"
+                    android:textColor="#414141"
                     android:id="@+id/etUserName"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
@@ -65,6 +70,8 @@
                     android:text="Customer Name"/>
 
                 <android.support.v7.widget.AppCompatEditText
+                    android:textStyle="bold"
+                    android:textColor="#414141"
                     android:id="@+id/etCustomerName"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
@@ -73,6 +80,7 @@
                     app:layout_flexBasisPercent="@fraction/fraction100percent" />
 
                 <android.support.v7.widget.AppCompatButton
+                    android:elevation="2dp"
                     android:text="Fill all Fields!"
                     android:enabled="false"
                     android:id="@+id/btnProceed"

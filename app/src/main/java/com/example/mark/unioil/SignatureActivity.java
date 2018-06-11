@@ -10,6 +10,7 @@ import android.graphics.Path;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -51,6 +52,8 @@ public class SignatureActivity extends AppCompatActivity {
         dv.setDrawingCacheEnabled(true);
 
         setContentView(dv);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
@@ -234,4 +237,13 @@ public class SignatureActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        super.onBackPressed();
+        return true;
+    }
 }

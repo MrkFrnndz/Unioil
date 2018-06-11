@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.mark.unioil.SignatureActivity">
+    tools:context="com.example.mark.unioil.SignatureActivity"
+    android:background="#f1f1f1">
 
 </android.support.constraint.ConstraintLayout>

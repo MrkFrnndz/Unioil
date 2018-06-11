@@ -8,6 +8,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
@@ -30,8 +31,9 @@ public class CameraActivity extends AppCompatActivity {
         drnumber = intent.getExtras().getString("DRNUMBER");
         username = intent.getExtras().getString("USERNAME");
         customer = intent.getExtras().getString("CUSTOMER");
-
         setContentView(R.layout.activity_camera);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         init();
 
         btnCapture.setOnClickListener(new View.OnClickListener() {
@@ -119,5 +121,15 @@ public class CameraActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        super.onBackPressed();
+        return true;
     }
 }

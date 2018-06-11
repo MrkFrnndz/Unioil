@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -42,7 +43,8 @@ public class SubmitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         initialize();
 
         drnumber = getIntent().getExtras().getString("DRNUMBER");
@@ -149,4 +151,25 @@ public class SubmitActivity extends AppCompatActivity {
                 Toast.makeText(SubmitActivity.this, R.string.error, Toast.LENGTH_LONG).show();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        super.onBackPressed();
+        return true;
+    }
 }
+
+
+//<android.support.v7.widget.AppCompatButton
+//        android:elevation="2dp"
+//        android:id="@+id/btnUpload"
+//        android:layout_width="300dp"
+//        android:layout_height="wrap_content"
+//        android:layout_marginTop="15dp"
+//        android:background="@drawable/custom_button_violet"
+//        android:text="UPLOAD"
+//        app:layout_flexBasisPercent="@fraction/fraction100percent" />

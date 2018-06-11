@@ -11,7 +11,7 @@
     <!--SECONDARY TEXT-->
     <color name="colorSecondaryText">#5c5c5c</color>
     <!--EDITTEXT true-->
-        <color name="colorEditTextT">#d6d6d6</color>
+        <color name="colorEditTextT">#ffffff</color>
     <!--EDITTEXT false-->
     <color name="colorEditTextF">#b7b7b7</color>
     <!--BUTTON DISABLE false-->
@@ -19,7 +19,11 @@
     <!--BUTTON PRESSED false-->
     <color name="colorButtonPressed">#4b0136</color>
 
-    <color name="colorButtonGray">#b7b7b7</color>
+    <color name="colorButtonGray">#d2cfcf</color>
+
+    <color name="colorBackground">#f8f8f8</color>
+    <color name="colorStroke">#dadada</color>
+    <color name="colorCardView">#f1f0f0</color>
 
 
 </resources>

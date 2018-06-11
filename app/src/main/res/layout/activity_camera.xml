@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.mark.unioil.MainActivity"
-    android:id="@+id/coordinatorlayout2">
+    android:id="@+id/coordinatorlayout2"
+    android:background="#f1f1f1">
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -14,6 +15,7 @@
         tools:context="com.example.mark.unioil.CameraActivity">
 
         <android.support.v7.widget.LinearLayoutCompat
+            android:padding="10dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_margin="5dp"
@@ -21,6 +23,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
             <android.support.v7.widget.AppCompatButton
+                android:elevation="2dp"
                 android:layout_weight=".5"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -30,6 +33,7 @@
                 android:textStyle="bold" />
 
             <android.support.v7.widget.AppCompatButton
+                android:elevation="2dp"
                 android:layout_marginLeft="10dp"
                 android:layout_weight=".5"
                 android:layout_width="fill_parent"
