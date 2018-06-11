@@ -32,23 +32,16 @@
                 app:flexWrap="wrap"
                 app:justifyContent="space_around">
 
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:text="DR Number"/>
-
-                <android.support.v7.widget.AppCompatEditText
-                    android:textStyle="bold"
-                    android:textColor="#414141"
-                    android:id="@+id/etDrNumber"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/custom_edittext"
-                    android:inputType="text"
-                    app:layout_flexBasisPercent="@fraction/fraction100percent" />
+                <android.support.v7.widget.AppCompatImageView
+                    android:tint="#ffffff"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginBottom="20dp"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="?android:attr/fingerprintAuthDrawable" />
 
                 <android.support.v7.widget.AppCompatTextView
-                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:text="User Name"/>
@@ -63,26 +56,9 @@
                     android:inputType="text"
                     app:layout_flexBasisPercent="@fraction/fraction100percent" />
 
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_marginTop="20dp"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:text="Customer Name"/>
-
-                android.support.v7.widget.AppCompatEditText
-                    android:textStyle="bold"
-                    android:textColor="#414141"
-                    android:id="@+id/etCustomerName"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/custom_edittext"
-                    android:inputType="text"
-                    app:layout_flexBasisPercent="@fraction/fraction100percent" />
-
                 <android.support.v7.widget.AppCompatButton
                     android:elevation="2dp"
-                    android:text="Fill all Fields!"
-                    android:enabled="false"
+                    android:text="PROCEED"
                     android:id="@+id/btnProceed"
                     android:layout_marginTop="50dp"
                     app:layout_flexBasisPercent="@fraction/fraction100percent"
