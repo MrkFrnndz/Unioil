@@ -42,6 +42,30 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                try{
+                    FileReader file = new FileReader(Environment.getExternalStorageDirectory()+ "/Download/unioil_data.csv");
+                    BufferedReader bfr = new BufferedReader(file);
+                    String line;
+                    while ((line = bfr.readLine()) != null) {
+                        String[] data = line.split(";");
+                        if(data[0].equals(etDrNumber.getText().toString())){
+                            etCustomerName.setText(data[1]);
+                            Snackbar.make(coordinatorLayout, R.string.found, Snackbar.LENGTH_SHORT).show();
+                            break;
+                        }
+                        else if(!line.equals(etDrNumber.getText().toString())){
+                            etCustomerName.setText("");
+                            Snackbar.make(coordinatorLayout, R.string.drnotfound, Snackbar.LENGTH_SHORT).show();
+                        }
+                    }
+                    bfr.close();
+                }catch (Exception e){
+                    Log.d("Error: ", e.toString());
+                }
+
+
+
                 if(!etDrNumber.getText().toString().equals("") &&
                         !etUserName.getText().toString().equals("") &&
                         !etCustomerName.getText().toString().equals("")){
@@ -109,13 +133,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SignatureActivity.class);
                 try{
-                    FileReader file = new FileReader(Environment.getExternalStorageDirectory()+ "/Download/unioil_data.txt");
+                    FileReader file = new FileReader(Environment.getExternalStorageDirectory()+ "/Download/unioil_data.csv");
                     BufferedReader bfr = new BufferedReader(file);
                     String line;
 //                    int nCount = 0;
                     while ((line = bfr.readLine()) != null) {
-//                        nCount++;
-                        if(line.equals(etDrNumber.getText().toString())){
+                        String[] data = line.split(";");
+                        if(data[0].equals(etDrNumber.getText().toString())){
                             Snackbar.make(coordinatorLayout, R.string.found, Snackbar.LENGTH_SHORT).show();
 //                            writeOutput();
                             intent.putExtra("DRNUMBER",etDrNumber.getText().toString());

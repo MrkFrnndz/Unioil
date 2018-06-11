@@ -65,6 +65,7 @@
                     android:text="Customer Name"/>
 
                 <android.support.v7.widget.AppCompatEditText
+                    android:enabled="false"
                     android:id="@+id/etCustomerName"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
