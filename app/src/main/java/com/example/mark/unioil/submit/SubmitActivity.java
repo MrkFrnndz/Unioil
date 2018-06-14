@@ -1,4 +1,4 @@
-package com.example.mark.unioil;
+package com.example.mark.unioil.submit;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -11,6 +11,10 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.mark.unioil.R;
+import com.example.mark.unioil.main.MainActivity;
+import com.example.mark.unioil.objects.CSVWriter;
+
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 
@@ -19,7 +23,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class SubmitActivity extends AppCompatActivity {
+public class SubmitActivity extends AppCompatActivity implements SubmitContract.SubmitView {
 
     final String FTPHost = "files.000webhost.com";
     final String user = "attendancemonitor";
@@ -28,7 +32,7 @@ public class SubmitActivity extends AppCompatActivity {
     //    final int PICK_FILE = 1;
     AppCompatButton btnUpload;
     String filename;
-
+    private SubmitPresenter submitPresenter;
     private String drnumber;
     private String username;
     private String customer;
@@ -36,12 +40,13 @@ public class SubmitActivity extends AppCompatActivity {
     private int fileSend;
 
     private ProgressBar progressBar;
-    private CSVWriter csvWrite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit);
+
+        submitPresenter = new SubmitPresenter(this);
 
         initialize();
 
@@ -62,7 +67,7 @@ public class SubmitActivity extends AppCompatActivity {
                 //    /storage/sdcard0/Datascan/datascan_03_09_18 10_08_47.csv
                 //    datascan_03_09_18 10_08_47.csv
 
-                filename = drnumber + "-Data.txt";
+                filename = drnumber + "-Data.csv";
                 new UploadFile().execute("/storage/sdcard0/Unioil/" + filename, FTPHost, user, pass);
                 fileSend = 1;
             }
@@ -92,7 +97,7 @@ public class SubmitActivity extends AppCompatActivity {
             String filename = drnumber + "-Data.csv"; // the name of the file to export with
             File saveFile = new File(sdCardDir, filename);
 
-            csvWrite = new CSVWriter(new FileWriter(saveFile));
+            CSVWriter csvWrite = new CSVWriter(new FileWriter(saveFile));
             csvWrite.writeNext(new String[]{drnumber, username, customer});
             csvWrite.close();
             Log.d("Success writeOutput: ", sdCardDir.toString());

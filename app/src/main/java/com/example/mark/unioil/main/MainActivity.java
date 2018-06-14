@@ -1,4 +1,4 @@
-package com.example.mark.unioil;
+package com.example.mark.unioil.main;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -17,12 +17,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.mark.unioil.R;
+import com.example.mark.unioil.signature.SignatureActivity;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-public class MainActivity extends AppCompatActivity {
+/**
+ * Displays the Main screen.
+ */
+public class MainActivity extends AppCompatActivity implements MainContract.MainView {
 
     public static final int requestcode = 1;
+    private MainPresenter mainPresenter;
     private AppCompatEditText etDrNumber;
     private AppCompatEditText etUserName;
     private AppCompatEditText etCustomerName;
@@ -33,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mainPresenter = new MainPresenter(this);
         init();
 
         etDrNumber.addTextChangedListener(new TextWatcher() {

@@ -1,4 +1,4 @@
-package com.example.mark.unioil;
+package com.example.mark.unioil.signature;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,13 +16,17 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.mark.unioil.R;
+import com.example.mark.unioil.camera.CameraActivity;
+
 import java.io.File;
 import java.io.FileOutputStream;
 
-public class SignatureActivity extends AppCompatActivity {
+public class SignatureActivity extends AppCompatActivity implements SignatureContract.SignatureView {
 
     DrawingView dv;
     Context context;
+    private SignaturePresenter signaturePresenter;
     private Path circlePath;
     private Paint circlePaint;
     private Paint mBitmapPaint;
@@ -41,6 +45,8 @@ public class SignatureActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        signaturePresenter = new SignaturePresenter(this);
 
         intent = getIntent();
         drnumber = intent.getExtras().getString("DRNUMBER");

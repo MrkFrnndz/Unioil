@@ -1,51 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorlayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.mark.unioil.MainActivity"
-    android:id="@+id/coordinatorlayout2">
+    tools:context="com.example.mark.unioil.main.MainActivity">
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.mark.unioil.CameraActivity">
+        tools:context="com.example.mark.unioil.camera.CameraActivity">
 
         <android.support.v7.widget.LinearLayoutCompat
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="5dp"
             android:id="@+id/ll"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp">
             <android.support.v7.widget.AppCompatButton
-                android:layout_weight=".5"
+                android:id="@+id/btnCapture"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Capture"
-                android:id="@+id/btnCapture"
+                android:layout_weight=".5"
                 android:background="@drawable/custom_button_violet"
+                android:text="Capture"
                 android:textStyle="bold" />
 
             <android.support.v7.widget.AppCompatButton
-                android:layout_marginLeft="10dp"
-                android:layout_weight=".5"
+                android:id="@+id/btnSave"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Save"
-                android:id="@+id/btnSave"
+                android:layout_marginLeft="10dp"
+                android:layout_weight=".5"
                 android:background="@drawable/custom_button_violet"
+                android:text="Save"
                 android:textStyle="bold" />
 
         </android.support.v7.widget.LinearLayoutCompat>
 
 
         <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/capturedImage"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/capturedImage"
             android:layout_above="@+id/ll">
         </android.support.v7.widget.AppCompatImageView>
 

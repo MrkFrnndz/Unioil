@@ -1,4 +1,4 @@
-package com.example.mark.unioil;
+package com.example.mark.unioil.camera;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,11 +11,19 @@ import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.mark.unioil.R;
+import com.example.mark.unioil.submit.SubmitActivity;
+
 import java.io.File;
 import java.io.FileOutputStream;
 
-public class CameraActivity extends AppCompatActivity {
+/**
+ * Displays the Camera screen.
+ */
+public class CameraActivity extends AppCompatActivity implements CameraContract.CameraView {
+
     static final int CAMERA_REQUEST = 0;
+    private CameraPresenter cameraPresenter;
     private AppCompatButton btnCapture,btnSave;
     private AppCompatImageView capturedImage;
     private Intent intent;
@@ -26,6 +34,9 @@ public class CameraActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        cameraPresenter = new CameraPresenter(this);
+
         intent = getIntent();
         drnumber = intent.getExtras().getString("DRNUMBER");
         username = intent.getExtras().getString("USERNAME");

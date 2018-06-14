@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".main.MainActivity"
             android:label="@string/delivery">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,13 +46,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SignatureActivity"
+            android:name=".signature.SignatureActivity"
             android:label="@string/signature" />
         <activity
-            android:name=".SubmitActivity"
+            android:name=".submit.SubmitActivity"
             android:label="@string/upload" />
         <activity
-            android:name=".CameraActivity"
+            android:name=".camera.CameraActivity"
             android:label="@string/capture" />
     </application>
 
