@@ -14,7 +14,6 @@ public class MainPresenterTest {
 
     @Mock
     private MainContract.MainView mainView;
-
     private MainPresenter mainPresenter;
 
     @Before
