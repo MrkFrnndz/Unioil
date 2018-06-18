@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.mark.unioil.R;
 import com.example.mark.unioil.signature.SignatureActivity;
@@ -226,5 +227,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
 //            Toast.makeText(this, "Failed to import", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
+    }
+
+    //      MainView Methods        //
+    @Override
+    public void showSignatureScreen() {
+        Toast.makeText(this, "Proceed Button clicked.", Toast.LENGTH_SHORT).show();
     }
 }

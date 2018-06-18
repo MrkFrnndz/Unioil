@@ -7,10 +7,10 @@ package com.example.mark.unioil.main;
 
 interface MainContract {
     interface MainView {
-
+        void showSignatureScreen();
     }
 
     interface MainPresenter {
-
+        void handleProceedButtonClick();
     }
 }

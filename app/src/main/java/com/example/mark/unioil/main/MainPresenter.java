@@ -11,4 +11,10 @@ class MainPresenter implements MainContract.MainPresenter {
     MainPresenter(MainContract.MainView mainView) {
         this.mainView = mainView;
     }
+
+    //      Presenter Method        //
+    @Override
+    public void handleProceedButtonClick() {
+        mainView.showSignatureScreen();
+    }
 }
