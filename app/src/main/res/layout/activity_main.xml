@@ -1,107 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/coordinatorlayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.mark.unioil.main.MainActivity">
+<layout>
 
-    <RelativeLayout
+    <data>
+
+        <variable
+            name="presenter"
+            type="com.example.mark.unioil.main.MainPresenter" />
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/coordinatorlayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <com.google.android.flexbox.FlexboxLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:alignItems="flex_start"
-            app:flexWrap="wrap"
-            app:justifyContent="center">
+        android:layout_height="match_parent"
+        tools:context="com.example.mark.unioil.main.MainActivity">
 
-            <com.google.android.flexbox.FlexboxLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.flexbox.FlexboxLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/flexForEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:alignContent="center"
                 app:alignItems="flex_start"
-                app:flexWrap="wrap"
-                app:justifyContent="space_around"
-                app:layout_flexBasisPercent="@fraction/fraction80percent">
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:text="DR Number"/>
-
-                <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/etDrNumber"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/custom_edittext"
-                    android:inputType="text"
-                    app:layout_flexBasisPercent="@fraction/fraction100percent" />
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="User Name"/>
-
-                <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/etUserName"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/custom_edittext"
-                    android:inputType="text"
-                    app:layout_flexBasisPercent="@fraction/fraction100percent" />
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="Customer Name"/>
-
-                <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/etCustomerName"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/custom_edittext"
-                    android:enabled="false"
-                    android:inputType="text"
-                    app:layout_flexBasisPercent="@fraction/fraction100percent" />
-
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/btnProceed"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
-                    android:background="@drawable/custom_button_violet"
-                    android:enabled="false"
-                    android:text="Fill all Fields!"
-                    app:layout_flexBasisPercent="@fraction/fraction100percent" />
-
-            </com.google.android.flexbox.FlexboxLayout>
-
-            <com.google.android.flexbox.FlexboxLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/flexForButton"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_below="@+id/flexForEditText"
-                android:layout_marginTop="20dp"
-                app:alignItems="center"
                 app:flexWrap="wrap"
                 app:justifyContent="center">
 
+                <com.google.android.flexbox.FlexboxLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/flexForEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:alignContent="center"
+                    app:alignItems="flex_start"
+                    app:flexWrap="wrap"
+                    app:justifyContent="space_around"
+                    app:layout_flexBasisPercent="@fraction/fraction80percent">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:text="DR Number" />
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/etDrNumber"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/custom_edittext"
+                        android:inputType="text"
+                        app:layout_flexBasisPercent="@fraction/fraction100percent" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="User Name" />
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/etUserName"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/custom_edittext"
+                        android:inputType="text"
+                        app:layout_flexBasisPercent="@fraction/fraction100percent" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="Customer Name" />
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/etCustomerName"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/custom_edittext"
+                        android:enabled="false"
+                        android:inputType="text"
+                        app:layout_flexBasisPercent="@fraction/fraction100percent" />
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/btnProceed"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="50dp"
+                        android:background="@drawable/custom_button_violet"
+                        android:enabled="false"
+                        android:onClick="@{presenter::handleProceedButtonClick}"
+                        android:text="Fill all Fields!"
+                        app:layout_flexBasisPercent="@fraction/fraction100percent" />
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+                <com.google.android.flexbox.FlexboxLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/flexForButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_below="@+id/flexForEditText"
+                    android:layout_marginTop="20dp"
+                    app:alignItems="center"
+                    app:flexWrap="wrap"
+                    app:justifyContent="center">
+
+
+                </com.google.android.flexbox.FlexboxLayout>
 
             </com.google.android.flexbox.FlexboxLayout>
-
-        </com.google.android.flexbox.FlexboxLayout>
-    </RelativeLayout>
+        </RelativeLayout>
 
 
-</android.support.design.widget.CoordinatorLayout>
+    </android.support.design.widget.CoordinatorLayout>
+</layout>

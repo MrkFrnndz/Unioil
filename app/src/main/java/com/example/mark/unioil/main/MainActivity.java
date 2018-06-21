@@ -2,6 +2,7 @@ package com.example.mark.unioil.main;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.CoordinatorLayout;
@@ -15,10 +16,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
 import com.example.mark.unioil.R;
+import com.example.mark.unioil.databinding.ActivityMainBinding;
 import com.example.mark.unioil.signature.SignatureActivity;
 
 import java.io.BufferedReader;
@@ -34,182 +34,40 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     private AppCompatEditText etDrNumber;
     private AppCompatEditText etUserName;
     private AppCompatEditText etCustomerName;
-    private AppCompatButton   btnProceed;
+    private AppCompatButton btnProceed;
     private CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        ActivityMainBinding activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         mainPresenter = new MainPresenter(this);
-        init();
+        activityMainBinding.setPresenter(mainPresenter);
 
-        etDrNumber.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                try{
-                    FileReader file = new FileReader(Environment.getExternalStorageDirectory()+ "/Download/unioil_data.csv");
-                    BufferedReader bfr = new BufferedReader(file);
-                    String line;
-                    while ((line = bfr.readLine()) != null) {
-                        String[] data = line.split(";");
-                        if(data[0].equals(etDrNumber.getText().toString())){
-                            etCustomerName.setText(data[1]);
-                            Snackbar.make(coordinatorLayout, R.string.found, Snackbar.LENGTH_SHORT).show();
-                            break;
-                        }
-                        else if(!line.equals(etDrNumber.getText().toString())){
-                            etCustomerName.setText("");
-                            Snackbar.make(coordinatorLayout, R.string.drnotfound, Snackbar.LENGTH_SHORT).show();
-                        }
-                    }
-                    bfr.close();
-                }catch (Exception e){
-                    Log.d("Error: ", e.toString());
-                }
-
-
-
-                if(!etDrNumber.getText().toString().equals("") &&
-                        !etUserName.getText().toString().equals("") &&
-                        !etCustomerName.getText().toString().equals("")){
-                    btnProceed.setEnabled(true);
-                    btnProceed.setText(R.string.proceedtosignature);
-                } else {
-                    btnProceed.setEnabled(false);
-                    btnProceed.setText(R.string.fillall);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
-        });
-
-        etUserName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(!etDrNumber.getText().toString().equals("") &&
-                        !etUserName.getText().toString().equals("") &&
-                        !etCustomerName.getText().toString().equals("")){
-                    btnProceed.setEnabled(true);
-                    btnProceed.setText(R.string.proceedtosignature);
-                } else {
-                    btnProceed.setEnabled(false);
-                    btnProceed.setText(R.string.fillall);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
-        });
-
-        etCustomerName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(!etDrNumber.getText().toString().equals("") &&
-                        !etUserName.getText().toString().equals("") &&
-                        !etCustomerName.getText().toString().equals("")){
-                    btnProceed.setEnabled(true);
-                    btnProceed.setText(R.string.proceedtosignature);
-                } else {
-                    btnProceed.setEnabled(false);
-                    btnProceed.setText(R.string.fillall);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
-        });
-
-        btnProceed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, SignatureActivity.class);
-                try{
-                    FileReader file = new FileReader(Environment.getExternalStorageDirectory()+ "/Download/unioil_data.csv");
-                    BufferedReader bfr = new BufferedReader(file);
-                    String line;
-//                    int nCount = 0;
-                    while ((line = bfr.readLine()) != null) {
-                        String[] data = line.split(";");
-                        if(data[0].equals(etDrNumber.getText().toString())){
-                            Snackbar.make(coordinatorLayout, R.string.found, Snackbar.LENGTH_SHORT).show();
-//                            writeOutput();
-                            intent.putExtra("DRNUMBER",etDrNumber.getText().toString());
-                            intent.putExtra("USERNAME",etUserName.getText().toString());
-                            intent.putExtra("CUSTOMER",etCustomerName.getText().toString());
-                            startActivity(intent);
-                            break;
-                        }
-                        else if(!line.equals(etDrNumber.getText().toString())){
-                            Snackbar.make(coordinatorLayout, R.string.drnotfound, Snackbar.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    bfr.close();
-                }catch (Exception e){
-                    Log.d("Error: ", e.toString());
-                }
-
-            }
-        });
-    }
-
-//    private void writeOutput() {
-//        try {
-//            File sdCardDir = Environment.getExternalStorageDirectory();
-//            String filename = "output.txt"; // the name of the file to export with
-//            File saveFile = new File(sdCardDir, filename);
-//            FileWriter fw = new FileWriter(saveFile, true);
-//            BufferedWriter bw = new BufferedWriter(fw);
-//            bw.append(etDrNumber.getText().toString()).append(",").append(etUserName.getText().toString()).append(",").append(etCustomerName.getText().toString()).append("\n");
-//
-//            bw.close();
-//
-//        } catch (Exception e){
-//            Log.d("Error in writeOutput: ",e.toString());
-//        }
-//
-//    }
-
-    private void init() {
         etDrNumber = (AppCompatEditText) findViewById(R.id.etDrNumber);
         etUserName = (AppCompatEditText) findViewById(R.id.etUserName);
         etCustomerName = (AppCompatEditText) findViewById(R.id.etCustomerName);
         btnProceed = (AppCompatButton) findViewById(R.id.btnProceed);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorlayout);
 
+        etDrNumber.addTextChangedListener(mainPresenter.handleDROnTextChanged());
+        etUserName.addTextChangedListener(mainPresenter.handleEtUserNameOnTextChanged());
+        etCustomerName.addTextChangedListener(mainPresenter.handleEtCustomerNameOnTextChanged());
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.my_menu,menu);
+        menuInflater.inflate(R.menu.my_menu, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.action_import:
-                importProduct();
+                mainPresenter.handleImportProductMenuClick();
                 return true;
             case R.id.action_clear:
             default:
@@ -217,7 +75,145 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
         }
     }
 
-    private void importProduct() {
+
+    //      MainView Methods        //
+    @Override
+    public void showSignatureScreen() {
+        Intent intent = new Intent(MainActivity.this, SignatureActivity.class);
+        try {
+            FileReader file = new FileReader(Environment.getExternalStorageDirectory() + "/Download/unioil_data.csv");
+            BufferedReader bfr = new BufferedReader(file);
+            String line;
+            while ((line = bfr.readLine()) != null) {
+                String[] data = line.split(";");
+                if (data[0].equals(etDrNumber.getText().toString())) {
+                    Snackbar.make(coordinatorLayout, R.string.found, Snackbar.LENGTH_SHORT).show();
+                    intent.putExtra("DRNUMBER", etDrNumber.getText().toString());
+                    intent.putExtra("USERNAME", etUserName.getText().toString());
+                    intent.putExtra("CUSTOMER", etCustomerName.getText().toString());
+                    startActivity(intent);
+                    break;
+                } else if (!line.equals(etDrNumber.getText().toString())) {
+                    Snackbar.make(coordinatorLayout, R.string.drnotfound, Snackbar.LENGTH_SHORT).show();
+                }
+            }
+
+            bfr.close();
+        } catch (Exception e) {
+            Log.d("Error: ", e.toString());
+        }
+    }
+
+    @Override
+    public TextWatcher checkDRContent() {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mainPresenter.handleSearchDR();
+                if (!etDrNumber.getText().toString().equals("") &&
+                        !etUserName.getText().toString().equals("") &&
+                        !etCustomerName.getText().toString().equals("")) {
+                    btnProceed.setEnabled(true);
+                    btnProceed.setText(R.string.proceedtosignature);
+                } else {
+                    btnProceed.setEnabled(false);
+                    btnProceed.setText(R.string.fillall);
+                }
+            }
+        };
+    }
+
+    @Override
+    public TextWatcher checkEtUserNameContent() {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!etDrNumber.getText().toString().equals("") &&
+                        !etUserName.getText().toString().equals("") &&
+                        !etCustomerName.getText().toString().equals("")) {
+                    btnProceed.setEnabled(true);
+                    btnProceed.setText(R.string.proceedtosignature);
+                } else {
+                    btnProceed.setEnabled(false);
+                    btnProceed.setText(R.string.fillall);
+                }
+            }
+        };
+    }
+
+    @Override
+    public TextWatcher checkEtCustomerNameContent() {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!etDrNumber.getText().toString().equals("") &&
+                        !etUserName.getText().toString().equals("") &&
+                        !etCustomerName.getText().toString().equals("")) {
+                    btnProceed.setEnabled(true);
+                    btnProceed.setText(R.string.proceedtosignature);
+                } else {
+                    btnProceed.setEnabled(false);
+                    btnProceed.setText(R.string.fillall);
+                }
+            }
+        };
+    }
+
+    @Override
+    public void searchDR() {
+        try {
+            FileReader file = new FileReader(Environment.getExternalStorageDirectory() + "/Download/unioil_data.csv");
+            BufferedReader bfr = new BufferedReader(file);
+            String line;
+            while ((line = bfr.readLine()) != null) {
+                String[] data = line.split(";");
+                if (data[0].equals(etDrNumber.getText().toString())) {
+                    etCustomerName.setText(data[1]);
+                    Snackbar.make(coordinatorLayout, R.string.found, Snackbar.LENGTH_SHORT).show();
+                    break;
+                } else if (!line.equals(etDrNumber.getText().toString())) {
+                    etCustomerName.setText("");
+                    Snackbar.make(coordinatorLayout, R.string.drnotfound, Snackbar.LENGTH_SHORT).show();
+                }
+            }
+            bfr.close();
+        } catch (Exception e) {
+            Log.d("Error: ", e.toString());
+        }
+    }
+
+    @Override
+    public void importProduct() {
         Intent fileIntent = new Intent(Intent.ACTION_GET_CONTENT);
         fileIntent.setType("gagt/sdf");
         try {
@@ -229,9 +225,4 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
         }
     }
 
-    //      MainView Methods        //
-    @Override
-    public void showSignatureScreen() {
-        Toast.makeText(this, "Proceed Button clicked.", Toast.LENGTH_SHORT).show();
-    }
 }
