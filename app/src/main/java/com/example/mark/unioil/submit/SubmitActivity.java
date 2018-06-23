@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.mark.unioil.Constants;
 import com.example.mark.unioil.R;
 import com.example.mark.unioil.main.MainActivity;
 import com.example.mark.unioil.objects.CSVWriter;
@@ -24,19 +25,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class SubmitActivity extends AppCompatActivity implements SubmitContract.SubmitView {
-
-    final String FTPHost = "files.000webhost.com";
-    final String user = "attendancemonitor";
-    final String pass = "darksalad12";
-    final int PORT = 21;
-    //    final int PICK_FILE = 1;
     AppCompatButton btnUpload;
     String filename;
     private SubmitPresenter submitPresenter;
     private String drnumber;
     private String username;
     private String customer;
-
+    private Constants constants;
     private int fileSend;
 
     private ProgressBar progressBar;
@@ -47,6 +42,7 @@ public class SubmitActivity extends AppCompatActivity implements SubmitContract.
         setContentView(R.layout.activity_submit);
 
         submitPresenter = new SubmitPresenter(this);
+        constants = Constants.getSingletonConstants();
 
         initialize();
 
@@ -68,7 +64,7 @@ public class SubmitActivity extends AppCompatActivity implements SubmitContract.
                 //    datascan_03_09_18 10_08_47.csv
 
                 filename = drnumber + "-Data.csv";
-                new UploadFile().execute("/storage/sdcard0/Unioil/" + filename, FTPHost, user, pass);
+                new UploadFile().execute(getString(R.string.unioilFolderDirectory) + filename, constants.getFTPHost(), constants.getUser(), constants.getPass());
                 fileSend = 1;
             }
         });
@@ -113,7 +109,7 @@ public class SubmitActivity extends AppCompatActivity implements SubmitContract.
         protected Boolean doInBackground(String... params) {
             FTPClient client = new FTPClient();
             try {
-                client.connect(params[1], PORT);
+                client.connect(params[1], constants.getPORT());
                 client.login(params[2], params[3]);
                 client.enterLocalPassiveMode();
                 client.changeWorkingDirectory("/public_html/CSVFiles");
@@ -140,11 +136,11 @@ public class SubmitActivity extends AppCompatActivity implements SubmitContract.
                 progressBar.incrementProgressBy(33);
                 if (fileSend == 1) {
                     filename = drnumber + "-Signature.jpg";
-                    new UploadFile().execute("/storage/sdcard0/Unioil/" + filename, FTPHost, user, pass);
+                    new UploadFile().execute(getString(R.string.unioilFolderDirectory) + filename, constants.getFTPHost(), constants.getUser(), constants.getPass());
                     fileSend = 2;
                 } else if (fileSend == 2) {
                     filename = drnumber + "-Document.jpg";
-                    new UploadFile().execute("/storage/sdcard0/Unioil/" + filename, FTPHost, user, pass);
+                    new UploadFile().execute(getString(R.string.unioilFolderDirectory) + filename, constants.getFTPHost(), constants.getUser(), constants.getPass());
                     fileSend = 3;
                 } else if (fileSend == 3) {
                     Toast.makeText(SubmitActivity.this, "Upload successful.", Toast.LENGTH_LONG).show();

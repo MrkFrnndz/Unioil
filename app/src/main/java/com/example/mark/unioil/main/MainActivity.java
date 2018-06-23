@@ -51,8 +51,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorlayout);
 
         etDrNumber.addTextChangedListener(mainPresenter.handleDROnTextChanged());
-        etUserName.addTextChangedListener(mainPresenter.handleEtUserNameOnTextChanged());
-        etCustomerName.addTextChangedListener(mainPresenter.handleEtCustomerNameOnTextChanged());
+        etUserName.addTextChangedListener(mainPresenter.handleEditTextOnTextChanged());
+        etCustomerName.addTextChangedListener(mainPresenter.handleEditTextOnTextChanged());
 
     }
 
@@ -134,35 +134,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.Main
     }
 
     @Override
-    public TextWatcher checkEtUserNameContent() {
-        return new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (!etDrNumber.getText().toString().equals("") &&
-                        !etUserName.getText().toString().equals("") &&
-                        !etCustomerName.getText().toString().equals("")) {
-                    btnProceed.setEnabled(true);
-                    btnProceed.setText(R.string.proceedtosignature);
-                } else {
-                    btnProceed.setEnabled(false);
-                    btnProceed.setText(R.string.fillall);
-                }
-            }
-        };
-    }
-
-    @Override
-    public TextWatcher checkEtCustomerNameContent() {
+    public TextWatcher checkEditTextContent() {
         return new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

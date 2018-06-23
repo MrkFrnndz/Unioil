@@ -101,7 +101,6 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
 //            }
 //        }
 
-
         if(resultCode == RESULT_OK){
             if(requestCode == CAMERA_REQUEST){
                 Bitmap cameraImage = (Bitmap) data.getExtras().get("data");

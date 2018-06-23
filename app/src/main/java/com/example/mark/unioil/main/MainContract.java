@@ -14,9 +14,7 @@ interface MainContract {
 
         TextWatcher checkDRContent();
 
-        TextWatcher checkEtUserNameContent();
-
-        TextWatcher checkEtCustomerNameContent();
+        TextWatcher checkEditTextContent();
 
         void searchDR();
 
@@ -28,9 +26,7 @@ interface MainContract {
 
         TextWatcher handleDROnTextChanged();
 
-        TextWatcher handleEtUserNameOnTextChanged();
-
-        TextWatcher handleEtCustomerNameOnTextChanged();
+        TextWatcher handleEditTextOnTextChanged();
 
         void handleSearchDR();
 

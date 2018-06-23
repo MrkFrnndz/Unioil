@@ -14,4 +14,5 @@
     <string name="drnotfound">DR number not found!</string>
     <string name="failedtoimport">Failed to import</string>
     <string name="error">Error</string>
+    <string name="unioilFolderDirectory">/storage/sdcard0/Unioil/</string>
 </resources>

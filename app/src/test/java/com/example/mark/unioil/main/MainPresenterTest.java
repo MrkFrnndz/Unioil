@@ -34,15 +34,9 @@ public class MainPresenterTest {
     }
 
     @Test
-    public void handleEtUserNameOnTextChanged() throws Exception {
-        mainPresenter.handleEtUserNameOnTextChanged();
-        verify(mainView).checkEtUserNameContent();
-    }
-
-    @Test
-    public void handleEtCustomerNameOnTextChanged() throws Exception {
-        mainPresenter.handleEtCustomerNameOnTextChanged();
-        verify(mainView).checkEtCustomerNameContent();
+    public void handleEditTextOnTextChanged() throws Exception {
+        mainPresenter.handleEditTextOnTextChanged();
+        verify(mainView).checkEditTextContent();
     }
 
     @Test

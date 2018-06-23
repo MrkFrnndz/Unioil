@@ -7,10 +7,14 @@ package com.example.mark.unioil.signature;
 
 interface SignatureContract {
     interface SignatureView {
+        void showCaptureScreen();
 
+        void clearSignatureScreen();
     }
 
     interface SignaturePresenter {
+        void handleSaveMenuClick();
 
+        void handleClearMenuClick();
     }
 }

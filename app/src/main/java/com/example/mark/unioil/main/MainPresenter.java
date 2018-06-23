@@ -27,13 +27,8 @@ public class MainPresenter implements MainContract.MainPresenter {
     }
 
     @Override
-    public TextWatcher handleEtUserNameOnTextChanged() {
-        return mainView.checkEtUserNameContent();
-    }
-
-    @Override
-    public TextWatcher handleEtCustomerNameOnTextChanged() {
-        return mainView.checkEtCustomerNameContent();
+    public TextWatcher handleEditTextOnTextChanged() {
+        return mainView.checkEditTextContent();
     }
 
     @Override
