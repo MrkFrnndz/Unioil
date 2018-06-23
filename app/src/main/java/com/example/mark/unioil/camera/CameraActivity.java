@@ -2,6 +2,9 @@ package com.example.mark.unioil.camera;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -22,7 +25,6 @@ import java.io.FileOutputStream;
  */
 public class CameraActivity extends AppCompatActivity implements CameraContract.CameraView {
 
-    static final int CAMERA_REQUEST = 0;
     private CameraPresenter cameraPresenter;
     private AppCompatButton btnCapture,btnSave;
     private AppCompatImageView capturedImage;
@@ -30,6 +32,8 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
     private String drnumber;
     private String username;
     private String customer;
+    private Uri mHighQualityImageUri = null;
+    private final int REQUEST_CODE_HIGH_QUALITY_IMAGE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +53,10 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
             @Override
             public void onClick(View view) {
                 intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                intent.putExtra("DRNUMBER",drnumber);
-//                intent.putExtra("USERNAME",username);
-//                intent.putExtra("CUSTOMER",customer);
-//                File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-//                String pictureName = getPictureName();
-//                File imageFile = new File(pictureDirectory,pictureName);
-//                Uri pictureUri = Uri.fromFile(imageFile);
-//                intent.putExtra( MediaStore.EXTRA_OUTPUT, pictureUri);
-                startActivityForResult(intent, CAMERA_REQUEST);
+                mHighQualityImageUri = generateTimeStampPhotoFileUri();
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, mHighQualityImageUri);
+                startActivityForResult(intent, REQUEST_CODE_HIGH_QUALITY_IMAGE);
             }
         });
 
@@ -68,11 +67,6 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
                 intent.putExtra("DRNUMBER",drnumber);
                 intent.putExtra("USERNAME",username);
                 intent.putExtra("CUSTOMER",customer);
-//                File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-//                String pictureName = getPictureName();
-//                File imageFile = new File(pictureDirectory,pictureName);
-//                Uri pictureUri = Uri.fromFile(imageFile);
-//                intent.putExtra( MediaStore.EXTRA_OUTPUT, pictureUri);
                 startActivity(intent);
             }
         });
@@ -84,50 +78,36 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
         capturedImage = (AppCompatImageView) findViewById(R.id.capturedImage);
     }
 
-//    private String getPictureName(){
-//        String pictureFile = drnumber;
-////        File storageDir = getExternalFilesDir(Environment.getExternalStorageDirectory()+ "/Unioil");
-////        File image = File.createTempFile(pictureFile,  ".jpg", storageDir);
-////        pictureFilePath = image.getAbsolutePath();
-//        return  pictureFile + ".jpg";
-//    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == REQUEST_PICTURE_CAPTURE && resultCode == RESULT_OK) {
-//            File imgFile = new  File(pictureFilePath);
-//            if(imgFile.exists())            {
-//                capturedImage.setImageURI(Uri.fromFile(imgFile));
-//            }
-//        }
-
+        super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK){
-            if(requestCode == CAMERA_REQUEST){
-                Bitmap cameraImage = (Bitmap) data.getExtras().get("data");
-                capturedImage.setImageBitmap(cameraImage);
-                File exportDir = new File(Environment.getExternalStorageDirectory() + "/Unioil", "");
-                if (!exportDir.exists()) {
-                    if (exportDir.mkdirs())
-                        Toast.makeText(this, R.string.foldercreated, Toast.LENGTH_SHORT);
-                }
-
-                File file = new File(exportDir, drnumber + "-Document.jpg");
-                try {
-                    if (file.createNewFile()) {
-                        FileOutputStream fileOutputStreameam = new FileOutputStream(file);
-                        if (cameraImage != null)
-                            cameraImage.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStreameam);
-                        fileOutputStreameam.flush();
-                        fileOutputStreameam.close();
+            switch (requestCode) {
+                case REQUEST_CODE_HIGH_QUALITY_IMAGE:
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        final Intent scanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                        final Uri contentUri = generateTimeStampPhotoFileUri();
+                        scanIntent.setData(contentUri);
+                        sendBroadcast(scanIntent);
+                    } else {
+                        final Intent intent = new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory()));
+                        sendBroadcast(intent);
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    Toast.makeText(this, R.string.saved, Toast.LENGTH_SHORT).show();
-//            exportBaKamo(value);
-                }
+                    capturedImage.setImageURI(mHighQualityImageUri);
+                    break;
+                default:
             }
 
         }
+    }
+
+    private Uri generateTimeStampPhotoFileUri() {
+        Uri photoFileUri = null;
+        File outputDir = new File(Environment.getExternalStorageDirectory() + "/Unioil", "");
+        if (outputDir != null) {
+            File photoFile = new File(outputDir, drnumber+ "-Document.jpg");
+            photoFileUri = Uri.fromFile(photoFile);
+        }
+        return photoFileUri;
     }
 }
